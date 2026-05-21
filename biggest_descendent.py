@@ -1,15 +1,15 @@
 def biggest_descendent(graph, root, value):
-    result = {}
-
+    biggest = {}
+ 
     def dfs(node):
-        biggest = value[node]
-
+        # Start with the node's own value
+        best = value[node]
         for neighbor in graph.neighbors(node):
-            child_biggest = dfs(neighbor)
-            biggest = max(biggest, child_biggest)
-
-        result[node] = biggest
-        return biggest
-
+            dfs(neighbor)
+            if biggest[neighbor] > best:
+                best = biggest[neighbor]
+        biggest[node] = best
+ 
     dfs(root)
-    return resul
+    return biggest
+ 
