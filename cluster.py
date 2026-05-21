@@ -1,22 +1,28 @@
-def cluster(graph, weights, level):
-    visited = set()
-    clusters = set()
+ef cluster(graph, weights, level):
 
-    for node in graph.nodes:
+    visited = {} 
+ 
+    def bfs(start, component_id):
+        queue = [start]
+        visited[start] = component_id
+        head = 0
+        while head < len(queue):
+            node = queue[head]
+            head += 1
+            for neighbor in graph.neighbors(node):
+                if neighbor not in visited and weights(node, neighbor) >= level:
+                    visited[neighbor] = component_id
+                    queue.append(neighbor)
+ 
+    component_id = 0
+    for node in graph.nodes():
         if node not in visited:
-            component = set()
-            stack = [node]
-            visited.add(node)
-
-            while stack:
-                current = stack.pop()
-                component.add(current)
-
-                for neighbor in graph.neighbors(current):
-                    if neighbor not in visited and weights(current, neighbor) >= level:
-                        visited.add(neighbor)
-                        stack.append(neighbor)
-
-            clusters.add(frozenset(component))
-
-    return frozenset(clusters)
+            bfs(node, component_id)
+            component_id += 1
+ 
+    components = {}
+    for node, cid in visited.items():
+        components.setdefault(cid, set()).add(node)
+ 
+    return frozenset(frozenset(nodes) for nodes in components.values())
+ 
