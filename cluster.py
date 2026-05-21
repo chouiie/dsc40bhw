@@ -1,4 +1,4 @@
-ef cluster(graph, weights, level):
+def cluster(graph, weights, level):
 
     visited = {} 
  
